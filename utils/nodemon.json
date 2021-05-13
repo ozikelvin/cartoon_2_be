@@ -1,0 +1,6 @@
+{
+    "watch": [
+        "."
+    ],
+    "exec": "cross-env ENV_FILE=development node -r ./config -r ./index.js"
+}
