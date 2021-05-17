@@ -2,6 +2,8 @@ const express = require( "express");
 const { Logger } = require("./utils/chalk.js");
 const  routes = require("./routes/index.js")
 const chalk = require("chalk");
+const createResponse = require("./utils/response.js");
+const { ResponseMessages } = require("./utils/status_codes.js");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,7 +17,7 @@ const PORT = process.env.PORT || 3000;
  const setUpRoutes = () => {
     app.use(routes.path, routes.router)
     app.use("/", (_, res, __) => {
-        res.status(200).json({ message: "Not allowed" })
+        res.status(200).json(createResponse("bad", ResponseMessages.not_allowed))
     })
 }
 

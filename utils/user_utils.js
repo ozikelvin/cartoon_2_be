@@ -1,5 +1,23 @@
 const User = require('../models/User');
-
+const bcrypt = require("bcrypt");
+const createUser = async (username, email, password, OTP, avatar) => {
+    const rounds = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(password, rounds);
+    const newUserObj = {
+        username: username,
+        email: email,
+        password: passwordHash,
+        otp: OTP,
+        avatar: avatar
+    }
+    try {
+        const newUser = await User.create(newUserObj);
+        if (newUser) return { created: true, newUser };
+        return { created: false };
+    } catch {
+        return { found: false };
+    }
+}
 const updateUser = async (searchParam, propertyToUpdate) => {
     try {
         const user = await User.findOneAndUpdate(
@@ -49,6 +67,7 @@ const deleteUser = async (searchParam) => {
 }
 
 module.exports = {
+    createUser,
     updateUser,
     findUser,
     getAllUsers,

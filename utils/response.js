@@ -1,4 +1,4 @@
-const createResponse = (type, message, data) => {
-    return type === "bad" ? { error: message ?? "", data: data ?? {} } : { message: message ?? "", data: data ?? {} };
+const createResponse = (type, message, data, token) => {
+    return type === "bad" ? { status: type, error: message ?? "", data: {} } : { status: type, message: message ?? "", data: data ?? {}, token: token ?? "" };
 }
 module.exports = createResponse;
