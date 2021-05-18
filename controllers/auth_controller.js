@@ -1,11 +1,12 @@
 const { signJWT } = require("../utils/jwt_helpers");
-const createResponse = require("../utils/response");
-const { StatusCodes, ResponseMessages } = require("../utils/status_codes");
+const createResponse = require("../utils/response.js");
+const { StatusCodes, ResponseMessages } = require("../utils/status_codes.js");
 const robohashAvatars = require("robohash-avatars");
-const { genOTP } = require("../utils/genOTP");
-const { createUser } = require("../utils/user_utils");
+const { genOTP } = require("../utils/genOTP.js");
+const { createUser } = require("../utils/user_utils.js");
 
 const login = async (req, res, next) => {
+
     const { username, password } = req.body;
     if (!username || !password) return res.status(StatusCodes.OK).json(createResponse("bad", ResponseMessages.required_parameters));
     const user = await User.login(username, password);
@@ -20,6 +21,7 @@ const login = async (req, res, next) => {
     }
 }
 const register = async (req, res, next) => {
+
     const OTP = genOTP();
     const { username, password, email } = req.body;
     var avatarURL = robohashAvatars.generateAvatar({

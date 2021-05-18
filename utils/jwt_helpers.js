@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { findUser } = require("./user_utils/user");
+const { findUser } = require("./user_utils");
 
 
 const signJWT = (username, expires, callback) => {

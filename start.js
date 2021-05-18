@@ -15,6 +15,7 @@ const PORT = process.env.PORT || 3000;
     });
 }
  const setUpRoutes = () => {
+     app.use(express.json())
     app.use(routes.path, routes.router)
     app.use("/", (_, res, __) => {
         res.status(200).json(createResponse("bad", ResponseMessages.not_allowed))
