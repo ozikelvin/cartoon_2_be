@@ -1,6 +1,11 @@
 const User = require('../models/User');
 const bcrypt = require("bcrypt");
 const createUser = async (username, email, password, OTP, avatar) => {
+    console.log(username);
+    console.log(email);
+    console.log(password);
+    console.log(OTP)
+    console.log(avatar)
     const rounds = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, rounds);
     const newUserObj = {
@@ -11,7 +16,9 @@ const createUser = async (username, email, password, OTP, avatar) => {
         avatar: avatar
     }
     try {
+        console.log(newUserObj)
         const newUser = await User.create(newUserObj);
+        console.log(newUser)
         if (newUser) return { created: true, newUser };
         return { created: false };
     } catch {

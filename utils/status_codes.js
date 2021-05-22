@@ -11,7 +11,9 @@ class ResponseMessages {
     static something_wrong = "Something went wrong while processing your request.";
     static user_already_exists = "This user already exists.";
     static password_length = "Password is too short";
-    static unable_to_create_user = "Unsble to create an account.";
+    static unable_to_create_user = "Unable to create an account.";
+    static unable_to_send_mail = "Email was not sent please use a correct mail.";
+
 }
 
 

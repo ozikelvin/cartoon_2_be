@@ -5,8 +5,9 @@ const chalk = require("chalk");
 const createResponse = require("./utils/response.js");
 const { ResponseMessages } = require("./utils/status_codes.js");
 
+
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3002;
 
  const startApp = () => {
     const greeting = process.env.NODE_ENV === "development" ? "Application listening on PORT " + PORT + "\nApplication can be found at " + chalk.yellow.bold('http://localhost:' + PORT) : "Application listening on PORT " + PORT;

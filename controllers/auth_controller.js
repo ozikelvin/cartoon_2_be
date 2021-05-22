@@ -4,7 +4,8 @@ const { StatusCodes, ResponseMessages } = require("../utils/status_codes.js");
 const robohashAvatars = require("robohash-avatars");
 const { genOTP } = require("../utils/genOTP.js");
 const { createUser } = require("../utils/user_utils.js");
-
+const mailer = require('../utils/mailEngine');
+ const User = require('../models/User');
 const login = async (req, res, next) => {
 
     const { username, password } = req.body;
@@ -22,8 +23,14 @@ const login = async (req, res, next) => {
 }
 const register = async (req, res, next) => {
 
-    const OTP = genOTP();
+    const OTP = genOTP(6);
     const { username, password, email } = req.body;
+    const newMail = {
+        from: process.env.USER_NAME,
+        to: email,
+        subject:'Verify your account',
+        html: `Hello ${username}, this is your OTP: ${OTP} `
+    }
     var avatarURL = robohashAvatars.generateAvatar({
         username: username,
         characters: robohashAvatars.CharacterSets.Robots,
@@ -37,8 +44,12 @@ const register = async (req, res, next) => {
     const { created, newUser } = await createUser(username, email, password, OTP, avatarURL);
     if (!created) return res.status(StatusCodes.OK).json(createResponse("bad", ResponseMessages.unable_to_create_user));
     signJWT(newUser._id, null, (err, token) => {
-        if (err) return res.status(StatusCodes.OK).json(createResponse("bad", ResponseMessagrees.sign_token_error));
+        if (err) return res.status(StatusCodes.OK).json(createResponse("bad", ResponseMessages.sign_token_error));
+        console.log('User Created') 
         //TODO: Send token to user email.
+        const {err : mailerErr} = mailer(newMail)
+        if(mailerErr) return res.status(StatusCodes.OK).json(createResponse("bad", ResponseMessages.unable_to_send_mail));
+
     });
 }
 
